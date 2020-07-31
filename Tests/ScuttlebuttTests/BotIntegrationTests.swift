@@ -31,13 +31,13 @@ final class BotIntegrationTests: XCTestCase {
         
         let activitySink = bot.activity.sink { status in
             switch status {
-            case .ready: ready.fulfill()
-            case .willDiscoverPeers: willDiscoverPeers.fulfill()
-            case .peerDiscoveryComplete(_): peerDiscoveryComplete.fulfill()
-            case .willRefresh: willRefresh.fulfill()
-            case .cancelled: cancelled.fulfill()
-            case .refreshComplete(_): refreshComplete.fulfill()
-            case .failed(_): noFail.fulfill()
+                case .ready: ready.fulfill()
+                case .willDiscoverPeers: willDiscoverPeers.fulfill()
+                case .peerDiscoveryComplete(_): peerDiscoveryComplete.fulfill()
+                case .willRefresh: willRefresh.fulfill()
+                case .cancelled: cancelled.fulfill()
+                case .refreshComplete(_): refreshComplete.fulfill()
+                case .failed(_): noFail.fulfill()
             }
         }
         
