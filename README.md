@@ -22,21 +22,15 @@
    ```swift
    let bot = ScuttleBot() {
        print("Yay, the bot is ready to scuttle!")
-   } willBeginPeerDiscovery: {
+   } willDiscoverPeers: {
 	   print("About to announce presence and search for peers...")
-   } discoveryComplete: { report in
-       print("Discovery complete: \(report.stats);")
-       print(report.malfunctions.isEmpty 
-             ? "detected malfunctions: \(report.malfunctions)"
-             : "all smooth!")
+   } peerDiscoveryComplete: { stats in
+        print("Peer discovery complete: \(stats);")
    } willRefresh: {
-	   print("About to start refreshing...")
-   } refreshComplete: { report in
+	   print("About to refresh...")
+   } refreshComplete: { stats in
        // Bot just finished another cycle and is letting you know how it went...
-       print("Refresh cycle complete: \(report.stats)")
-       print(report.malfunctions.isEmpty 
-             ? "detected malfunctions: \(report.malfunctions);"
-             : "all smooth!")
+       print("Refresh cycle complete: \(stats)")
    } cancelled: {
 	   print("The bot has been gracefully switched off.")
    } failed: { error in

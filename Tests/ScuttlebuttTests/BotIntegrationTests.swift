@@ -11,11 +11,11 @@ final class BotIntegrationTests: XCTestCase {
 
         let ready = expectation(description: "expected ready")
 
-        var willBeginPeerDiscovery = expectation(description: "expected peer discovery to begin")
-        willBeginPeerDiscovery.assertForOverFulfill = false
+        var willDiscoverPeers = expectation(description: "expected peer discovery to begin")
+        willDiscoverPeers.assertForOverFulfill = false
 
-        var discoveryComplete = expectation(description: "expected peer discovery to complete")
-        discoveryComplete.assertForOverFulfill = false
+        var peerDiscoveryComplete = expectation(description: "expected peer discovery to complete")
+        peerDiscoveryComplete.assertForOverFulfill = false
 
         var willRefresh = expectation(description: "expected to see refresh")
         willRefresh.assertForOverFulfill = false
@@ -28,12 +28,12 @@ final class BotIntegrationTests: XCTestCase {
         var noFail = expectation(description: "unexpected failure")
         noFail.isInverted = true
 
-        let bot = ScuttleBot() {
+        let bot = ScuttleBot {
             ready.fulfill()
-        } willBeginPeerDiscovery: {
-            willBeginPeerDiscovery.fulfill()
-        } discoveryComplete: { report in
-            discoveryComplete.fulfill()
+        } willDiscoverPeers: {
+            willDiscoverPeers.fulfill()
+        } peerDiscoveryComplete: { report in
+            peerDiscoveryComplete.fulfill()
         } willRefresh: {
             willRefresh.fulfill()
         } refreshComplete: { report in
