@@ -75,4 +75,4 @@
 
    > **CAUTION**
    >
-   > Don't forget that the caller is responsivle for cancelling the subscription. 
+   > Don't forget that the caller is responsible for cancelling the subscription. 
