@@ -10,6 +10,15 @@ public class ScuttleBot: Cancellable {
     public typealias Callback = ActivityCallbacks
 
     /// ...
+    private var statusCallbacks = [Phase.Status: Callback.Status]()
+
+    /// ...
+    private var reportCallbacks = [Phase.Report: Callback.Report]()
+
+    /// ...
+    private let didFail: ((Error) -> Void)?
+
+    /// ...
     public init(_ ready: Callback.Status? = nil,
                 willDiscoverPeers: Callback.Status? = nil,
                 peerDiscoveryComplete: Callback.Report? = nil,
@@ -17,11 +26,23 @@ public class ScuttleBot: Cancellable {
                 refreshComplete: Callback.Report? = nil,
                 cancelled: Callback.Status? = nil,
                 failed: ((Error) -> Void)? = nil) {
+        statusCallbacks[.ready] = ready
+        statusCallbacks[.willDiscoverPeers] = willDiscoverPeers
+        reportCallbacks[.peerDiscoveryComplete] = peerDiscoveryComplete
+        statusCallbacks[.willRefresh] = willRefresh
+        reportCallbacks[.refreshComplete] = refreshComplete
+        statusCallbacks[.cancelled] = cancelled
+
+        didFail = failed
+        
         // TODO: Implement so that GoBot cane wrapped or extended without disrupting the API too much.
     }
 
+    /// ...
     public func cancel() {
         // TODO
+        
+        statusCallbacks[.cancelled]?()
     }
 
 }
