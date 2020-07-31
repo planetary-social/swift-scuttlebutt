@@ -37,6 +37,14 @@ public class ScuttleBot: Cancellable {
         
         // TODO: Implement so that GoBot cane wrapped or extended without disrupting the API too much.
     }
+    
+    /// ...
+    public func refresh() {
+        // TODO
+
+        statusCallbacks[.willDiscoverPeers]?() // FIXME: Move appropriately.
+        statusCallbacks[.willRefresh]?()
+    }
 
     /// ...
     public func cancel() {
