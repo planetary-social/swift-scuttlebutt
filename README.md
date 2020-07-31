@@ -19,38 +19,37 @@
 
 2. Set up your bot:
 
-   ```swift
-   let bot = ScuttleBot() {
-       print("Yay, the bot is ready to scuttle!")
-   } willDiscoverPeers: {
-	   print("About to announce presence and search for peers...")
-   } peerDiscoveryComplete: { stats in
-        print("Peer discovery complete: \(stats);")
-   } willRefresh: {
-	   print("About to refresh...")
-   } refreshComplete: { stats in
-       // Bot just finished another cycle and is letting you know how it went...
-       print("Refresh cycle complete: \(stats)")
-   } cancelled: {
-	   print("The bot has been gracefully switched off.")
-   } failed: { error in
-       print("OOOOPS! SOMETHING BAD HAPPENED WITH THE BOT!" )
-       print("Cause: \(error)")
-   }
-   ```
 
+   ```swift
+   let bot = ScuttleBot()
+   ```
+   
    - [ ] TODO: What are the defaults?
    - [ ] TODO: Where to find information about the advanced setup?
 
-3. Time to start:
+3. Subscribe to status updates:
 
    ```swift
-   bot.start(on: .main)
+   let activitySubscription = bot.activity.sink { status in
+        switch status {
+        case .ready: 
+            print("Yay, the bot is ready to scuttle!")
+        case .willDiscoverPeers:
+            print("About to announce presence and search for peers...")
+        case .peerDiscoveryComplete(let stats):
+            print("Peer discovery complete: \(stats);")
+        case .willRefresh:
+            print("About to refresh...")
+        case .refreshComplete(let stats):
+            print("Refresh cycle complete: \(stats)")
+        case .cancelled:
+            print("The bot has been gracefully switched off.")
+        case .failed(let error):
+            print("OOOOPS! SOMETHING BAD HAPPENED WITH THE BOT!" )
+            print("Cause: \(error)")
+        }
+   }
    ```
-
-   > **NOTE**
-   >
-   > All the callbacks will be computed on the queue specified during the `start`.
 
 4. Refresh at will:
 
@@ -71,4 +70,9 @@
 
    ```swift
    bot.cancel()
+   activitySubscription.cancel()
    ```
+
+   > **CAUTION**
+   >
+   > Don't forget that the caller is responsivle for cancelling the subscription. 

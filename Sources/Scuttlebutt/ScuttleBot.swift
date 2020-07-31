@@ -34,6 +34,8 @@ public class ScuttleBot: Cancellable {
 
         // FIXME: Move all above appropriately.
     }
+    
+    // TODO: Add refresh(from:)
 
     /// ...
     public func cancel() {
