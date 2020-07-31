@@ -6,6 +6,9 @@ public class ScuttleBot: Cancellable {
     /// In context of the bot, when we talk about phases, it means we talk about the activity callback phases.
     public typealias Phase = ActivityCallbackPhases
     
+    /// The same reference to activity is true when talking about callbacks.
+    public typealias Callback = ActivityCallbacks
+
     /// ...
     public init() {
         // TODO: Implement so that GoBot cane wrapped or extended without disrupting the API too much.
