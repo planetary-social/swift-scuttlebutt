@@ -46,7 +46,7 @@ final class BotIntegrationTests: XCTestCase {
         }
 
         for _ in 1...refreshRepeatCount {
-            bot.refresh()
+            bot.refresh(from: DispatchQueue.global(qos: .background))
         }
 
         DispatchQueue.main.asyncAfter(deadline: cancelTime) {
