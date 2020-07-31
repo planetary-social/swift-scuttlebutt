@@ -34,6 +34,9 @@ public class ScuttleBot: Cancellable {
     private let scheduler: Scheduler
 
     /// ...
+    private let reporting: [AnyCancellable]
+
+    /// ...
     public init() {
         discovery = Discovery(using: [
             .bonjour(
@@ -52,6 +55,12 @@ public class ScuttleBot: Cancellable {
         scheduler = Scheduler(
             /* FIXME: Configure! */
         )
+        
+        reporting = [
+            scheduler.activity.sink(schedulerDidReport),
+            gossiping.activity.sink(gossipingDidReport),
+            discovery.activity.sink(discoveryDidReport),
+        ]
 
         scheduler.suggestions.subscribe(discovery.discoveries)
         scheduler.suggestions.subscribe(gossiping.suggestions)
@@ -84,11 +93,28 @@ public class ScuttleBot: Cancellable {
         // FIXME: Move all above appropriately.
     }
 
+    // ...
+    private func discoveryDidReport(activity: Discovery.Activity) {
+        // TODO
+    }
+
+    // ...
+    private func gossipingDidReport(activity: Gossiping.Activity) {
+        // TODO
+    }
+
+    // ...
+    private func schedulerDidReport(activity: Scheduler.Activity) {
+        // TODO
+    }
+    
     /// ...
     public func cancel() {
         // TODO
 
         isReady = false // TODO: Remove this too...
+        
+        // TODO: cancel reporting?
         
         activity.send(.cancelled)
     }
