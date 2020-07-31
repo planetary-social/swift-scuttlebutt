@@ -28,7 +28,11 @@ final class BotIntegrationTests: XCTestCase {
         let noFail = inverted(expectation(description: "unexpected failure"))
 
         let bot = ScuttleBot()
-        
+
+        DispatchQueue.main.asyncAfter(deadline: cancelTime) {
+            bot.cancel()
+        }
+
         let activitySink = bot.activity.sink { status in
             switch status {
                 case .ready: ready.fulfill()
@@ -47,10 +51,6 @@ final class BotIntegrationTests: XCTestCase {
 
         for _ in 1...refreshRepeatCount {
             bot.refresh(from: DispatchQueue.global(qos: .background))
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: cancelTime) {
-            bot.cancel()
         }
 
         waitForExpectations(timeout: testDeadline, handler: nil)
