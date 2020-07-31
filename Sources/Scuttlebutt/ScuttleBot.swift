@@ -1,56 +1,47 @@
 import Combine
+import Foundation
 
 /// ...
+@available(OSX 10.15, *)
 public class ScuttleBot: Cancellable {
 
-    /// In context of the bot, when we talk about phases, it means we talk about the activity callback phases.
-    public typealias Phase = ActivityCallbackPhases
+    ///
+    public let activity = PassthroughSubject<Activity, Never>()
+
+    ///
+    public var isReady: Bool = false
     
-    /// The same reference to activity is true when talking about callbacks.
-    public typealias Callback = ActivityCallbacks
-
+    
     /// ...
-    private var statusCallbacks = [Phase.Status: Callback.Status]()
-
-    /// ...
-    private var reportCallbacks = [Phase.Report: Callback.Report]()
-
-    /// ...
-    private let didFail: ((Error) -> Void)?
-
-    /// ...
-    public init(_ ready: Callback.Status? = nil,
-                willDiscoverPeers: Callback.Status? = nil,
-                peerDiscoveryComplete: Callback.Report? = nil,
-                willRefresh: Callback.Status? = nil,
-                refreshComplete: Callback.Report? = nil,
-                cancelled: Callback.Status? = nil,
-                failed: ((Error) -> Void)? = nil) {
-        statusCallbacks[.ready] = ready
-        statusCallbacks[.willDiscoverPeers] = willDiscoverPeers
-        reportCallbacks[.peerDiscoveryComplete] = peerDiscoveryComplete
-        statusCallbacks[.willRefresh] = willRefresh
-        reportCallbacks[.refreshComplete] = refreshComplete
-        statusCallbacks[.cancelled] = cancelled
-
-        didFail = failed
+    public init() {
         
         // TODO: Implement so that GoBot cane wrapped or extended without disrupting the API too much.
     }
-    
+
     /// ...
     public func refresh() {
         // TODO
 
-        statusCallbacks[.willDiscoverPeers]?() // FIXME: Move appropriately.
-        statusCallbacks[.willRefresh]?()
+        if !isReady {
+            activity.send(.ready)
+            isReady = true // TODO: Remove this...
+        }
+
+        activity.send(.willDiscoverPeers)
+        activity.send(.peerDiscoveryComplete(Activity.Stats()))
+        activity.send(.willRefresh)
+        activity.send(.refreshComplete(Activity.Stats()))
+
+        // FIXME: Move all above appropriately.
     }
 
     /// ...
     public func cancel() {
         // TODO
+
+        isReady = false // TODO: Remove this too...
         
-        statusCallbacks[.cancelled]?()
+        activity.send(.cancelled)
     }
 
 }
