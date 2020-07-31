@@ -11,7 +11,9 @@ let package = Package(
             targets: ["Scuttlebutt"]),
     ],
     dependencies: [
-        // TODO...
+        .package(path: "../swift-gossip"),
+        .package(path: "../swift-peer-discovery"),
+        .package(path: "../swift-networking-schedule"),
     ],
     targets: [
         .target(
