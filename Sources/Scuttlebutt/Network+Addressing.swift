@@ -46,6 +46,23 @@ public extension Scuttlebutt.Network {
     }
 
     /// ...
+    static let ignoredLocalAddresses = ["127.0.0.1", "::1", "fe80::1%lo0"]
+
+    /// ...
+    // FIXME: Maybe rename to bestLocalNetworkAddresses, and constraint only to those (ignoring public IPs)?
+    // ^NOTE: If to ignore public IPs, this would play nicely with explicit declaration of Pub's host.
+    static var bestAddresses: [Address] {
+        let viableAddresses = availableAddresses.filter { !ignoredLocalAddresses.contains($0) }
+
+        let isIPv6: (String) -> Bool = { $0.contains(":") }
+
+        let chosenAddresses = [viableAddresses.first(where: isIPv6),
+                               viableAddresses.drop(while: isIPv6).first]
+
+        return chosenAddresses.compactMap { $0 }
+    }
+    
+    /// ...
     typealias Host = String
 
     /// ...
