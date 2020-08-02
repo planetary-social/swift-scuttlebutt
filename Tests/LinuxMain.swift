@@ -1,6 +1,6 @@
 import XCTest
 
-import BotIntegrationTests
+import ScuttlebuttTests
 
 var tests = [XCTestCaseEntry]()
 
