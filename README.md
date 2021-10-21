@@ -1,13 +1,7 @@
 # Swift Scuttlebutt
 
-**How to participate in Scuttlebutt from Swift Programs?**
+This is an experimental not finished implimentation of secure scuttlebutt in swift. It's released here in case anybody finds it useful. 
 
-- [ ] TODO: Abstract.
-
-## Getting Started
-
-- [ ] TODO: What are the requirements?
-- [ ] TODO: How to install this thing?
 
 ## Letting the Bot Scuttle
 
